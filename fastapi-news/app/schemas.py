@@ -85,6 +85,24 @@ class News(NewsBase):
 
 
 # AttributeError: module 'app.schemas' has no attribute 'SummaryCreate'
-class SummaryCreate(BaseModel):
-    title: str
-    body: str
+# class SummaryCreate(BaseModel):
+#     title: str
+#     body: str
+
+class SummaryFast(BaseModel):
+    news_id: int
+
+class SummaryBase(BaseModel):
+    summary_text: str
+    news_id: int
+
+
+class SummaryCreate(SummaryBase):
+    pass
+    # news_body: str 
+
+class Summary(SummaryBase):
+    id: int
+
+    class Config:
+        from_attributes = True

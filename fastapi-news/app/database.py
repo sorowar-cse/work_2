@@ -11,11 +11,11 @@ host=os.getenv("DB_HOST")
 user=os.getenv("DB_USER")
 passwd=os.getenv("DB_PASS")
 database=os.getenv("DB_NAME")
-encoded_passwd = quote_plus(passwd)
+# encoded_passwd = quote_plus(passwd)
 
 
-SQLALCHEMY_DATABASE_URL = f"mysql+mysqlconnector://{user}:{encoded_passwd}@{host}/{database}"
-
+# SQLALCHEMY_DATABASE_URL = f"mysql+mysqlconnector://{user}:{passwd}@{host}/{database}"
+SQLALCHEMY_DATABASE_URL = "mysql+mysqlconnector://root:@localhost/team_1_db"
 print(SQLALCHEMY_DATABASE_URL)
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)

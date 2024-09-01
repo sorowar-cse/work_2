@@ -98,11 +98,19 @@ def create_news(db: Session, news: schemas.NewsCreate):
 
 # db_summary = crud.get_summary(db, summary_id=summary_id)
 def get_summary(db: Session, summary_id: int):
-    return db.query(models.Summary).filter(models.Summary.id == summary_id).first()
+    return db.query(models.SummaryCreate).filter(models.SummaryCreate.id == summary_id).first()
 
 # db_summary = crud.create_summary(db=db, summary=summary)
 def create_summary(db: Session, summary: schemas.SummaryCreate):
-    db_summary = models.Summary(**summary.dict())
+    db_summary = models.SummaryCreate(**summary.dict())
+    db.add(db_summary)
+    db.commit()
+    db.refresh(db_summary)
+    return db_summary
+
+
+def insert_summary(db: Session, news_id: int, summary_text: str):
+    db_summary = models.Summary(news_id=news_id, summary_text=summary_text)
     db.add(db_summary)
     db.commit()
     db.refresh(db_summary)

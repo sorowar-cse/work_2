@@ -48,17 +48,24 @@ def single_news_scraper(url):
         publisher_website = url.split('/')[2]
         publisher = publisher_website.split('.')[-2]
 
-        title = response.html.find('h1', first=True).text
-        reporter = response.html.find('.contributor-name', first=True).text
+        publisher_website = url.split('/')[2]
+        publisher = publisher_website.split('.')[-2]
+
+        title = response.html.find('.h1', first=True).text
+        reporter = response.html.find('.author-name', first=True).text
         
-        datetime_element = response.html.find('time', first=True)
+        datetime_element = response.html.find('.date', first=True)
         news_datetime = datetime_element.attrs['datetime']
-        category = response.html.find('.print-entity-section-wrapper', first=True).text
-
+        category = response.html.find('h2', first=True).text
+        # widget-title
         news_body = '\n'.join([p.text for p in response.html.find('p')])
+    
 
-        img_tags = response.html.find('img')
-        images = [img.attrs['src'] for img in img_tags if 'src' in img.attrs]
+        # img_tags = response.html.find('img')
+        # images = [img.attrs['src'] for img in img_tags if 'src' in img.attrs]
+        
+        img_tags = response.html.find('.section-media')
+        images = [img.attrs['data-src'] for img in img_tags if 'data-src' in img.attrs]
         
         return publisher_website, publisher, title, reporter, news_datetime, category, news_body, images
     except Exception as e:
@@ -71,9 +78,10 @@ if __name__ == "__main__":
     conn = create_db_connection()
     if conn is not None:
         bd_urls = [
-            "https://www.prothomalo.com/bangladesh/capital/3smozcz6rv",
-            "https://www.prothomalo.com/world/asia/2hnhookcn1",
-            "https://www.prothomalo.com/sports/cricket/phttab2dc1"
+            # "https://www.prothomalo.com/bangladesh/capital/3smozcz6rv",
+            # "https://www.prothomalo.com/world/asia/2hnhookcn1",
+            # "https://www.prothomalo.com/sports/cricket/phttab2dc1"
+            "https://www.tbsnews.net/economy/bazaar/prices-cucumbers-chillies-jump-50-overnight-877551"
         ]
         
         for url in bd_urls:

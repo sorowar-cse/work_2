@@ -45,12 +45,23 @@ class Image(Base):
 
     news = relationship("News")
 
+    
+class Summary(Base):
+    __tablename__ = "summaries"
+    id = Column(Integer, primary_key=True, index=True)
+    news_id = Column(Integer, ForeignKey('news.id'))
+    summary_text = Column(Text)
+    
+    
 class SummaryCreate(Base):
     __tablename__ = " summaries"
     id = Column(Integer, primary_key=True, index=True)
     summary = Column(Text)
     news_id = Column(Integer, ForeignKey('news.id'))
     news = relationship("News")
+    
+
+    
     
     
     

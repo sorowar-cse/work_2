@@ -14,14 +14,16 @@ def single_news_scraper(url: str):
 
         publisher_website = url.split('/')[2]
         publisher = publisher_website.split('.')[-2]
-        title = response.html.find('h1', first=True).text
-        reporter = response.html.find('.contributor-name', first=True).text
-        datetime_element = response.html.find('time', first=True)
-        news_datetime = datetime_element.attrs['datetime']
-        category = response.html.find('.print-entity-section-wrapper', first=True).text
-        content = '\n'.join([p.text for p in response.html.find('p')])
-        img_tags = response.html.find('img')
-        images = [img.attrs['src'] for img in img_tags if 'src' in img.attrs]
+        title = response.html.find('.h1', first=True).text
+        reporter = response.html.find('.author-name', first=True).text
+        datetime_element = response.html.find('.date', first=True)
+        # news_datetime = datetime_element.attrs['datetime']
+        category = response.html.find('h2', first=True).text
+        content = '\n'.join([p.text for p in response.html.find('.rtejustify')])
+        # img_tags = response.html.find('img')
+        # images = [img.attrs['src'] for img in img_tags if 'src' in img.attrs]
+        img_tags = response.html.find('.section-media')
+        images = [img.attrs['data-src'] for img in img_tags if 'data-src' in img.attrs]
         news_datetime = datetime.datetime.now()
 
         print(f"Scraped news from {url}")
@@ -30,6 +32,7 @@ def single_news_scraper(url: str):
         print(f"Date: {news_datetime}")
         print(f"Category: {category}")
         print(f"Images: {images}")
+        print(f"News Body: {content}")
 
 
         return NewsCreate(

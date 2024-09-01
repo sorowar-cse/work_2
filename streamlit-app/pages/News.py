@@ -1,7 +1,22 @@
 import streamlit as st
 from utils import get_news_list, get_news_by_id, scrape_news
 
-st.title("News Page")
+# st.title("News Page")
+
+st.markdown("""
+    <style>
+        h1 {
+            text-align: center;
+            color: #00698f;
+        }
+        h3 {
+            text-align: center;
+            color: #808080;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+st.markdown("<h1>News Page</h1>", unsafe_allow_html=True)
 
 option = st.selectbox(
     "Choose an action",
@@ -62,6 +77,7 @@ elif option == "Scrape News":
         url_list = [url.strip() for url in urls.split(",")]
         scraped_news = scrape_news(url_list)
         st.success("News scraping initiated")
+        st.balloons()
 
         col1, col2 = st.columns(2)
         half = len(scraped_news) // 2
@@ -75,3 +91,5 @@ elif option == "Scrape News":
                     st.caption(f"**Category:** {news['category']['name']} - {news['category']['description']}")
                     st.caption(f"**Reporter:** {news['reporter']['name']} ({news['reporter']['email']})")
                     st.caption(f"**Publisher:** {news['publisher']['name']} ({news['publisher']['email']})")
+
+st.markdown("<h3 style='text-align: center; color: #808080;'>Developed by: Team 1</h3>", unsafe_allow_html=True)
